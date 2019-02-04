@@ -57,7 +57,7 @@ scoring = 'accuracy'
 #Building the model
 models = []
 models.append(('LR', LogisticRegression()))
-models.append(('KNN', KNeigborsClassifier()))
+models.append(('KNN', KNeighborsClassifier()))
 models.append(('SVM', SVC()))
 
 #Evaluate each model
@@ -65,16 +65,16 @@ results = []
 names = []
 
 for name, model in models:
-    kfold = model_selection.kfold(n_splits=10, random_state = seed)
+    kfold = model_selection.KFold(n_splits=10, random_state = seed)
     cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
     names.append(name)
     msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
     print(msg)
 
-#Maqke some predictions and validating dataset
+#Make some predictions and validating dataset
 for name, model in models:
     model.fit(X_train, Y_train)
     predictions = model.predict(X_validation)
     print(name)
     print(accuracy_score(Y_validation, predictions))
-    print(classification_report(Y_validation, prediction))
+    print(classification_report(Y_validation, predictions))
